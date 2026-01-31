@@ -5,9 +5,10 @@ Alternative to Azure Functions for local testing
 import json
 import os
 from datetime import datetime
-from flask import Flask, request, jsonify, send_from_directory
+from flask import Flask, request, jsonify, send_from_directory, send_file
 from flask_cors import CORS
 import uuid
+from pdf_generator import BioDataPDFGenerator
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "*"}})
@@ -127,8 +128,47 @@ def biodata_options():
 def biodata_item_options(biodata_id):
     return '', 204
 
+@app.route('/api/generate-pdf', methods=['POST'])
+def generate_pdf():
+    """Generate PDF from biodata and template selection"""
+    try:
+        body = request.get_json()
+        
+        if not body:
+            return jsonify({"success": False, "error": "No data provided"}), 400
+        
+        biodata_data = body.get('biodata', {})
+        template = body.get('template', 'template1')
+        
+        if not biodata_data.get('name'):
+            return jsonify({"success": False, "error": "Name is required"}), 400
+        
+        # Generate PDF
+        pdf_generator = BioDataPDFGenerator()
+        pdf_buffer = pdf_generator.generate_pdf(biodata_data, template)
+        
+        # Log the generated PDF buffer size
+        app.logger.info(f"Generated PDF buffer size: {len(pdf_buffer.getvalue())} bytes")
+        
+        # Prepare response with PDF
+        filename = f"{biodata_data.get('name', 'biodata')}_{template}.pdf"
+        
+        return send_file(
+            pdf_buffer,
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name=filename
+        )
+    
+    except Exception as e:
+        return jsonify({"success": False, "error": str(e)}), 500
+
+@app.route('/api/generate-pdf', methods=['OPTIONS'])
+def generate_pdf_options():
+    return '', 204
+
 if __name__ == '__main__':
-    print("🚀 Marriage Biodata API Server")
+    print("Marriage Biodata API Server")
     print("=" * 40)
     print("Running on: http://localhost:7071")
     print("=" * 40)
@@ -140,5 +180,6 @@ if __name__ == '__main__':
     print("  PUT    /api/biodata/{id}")
     print("  DELETE /api/biodata/{id}")
     print("  POST   /api/biodata/search")
+    print("  POST   /api/generate-pdf")
     print("\n")
     app.run(host='localhost', port=7071, debug=True)
