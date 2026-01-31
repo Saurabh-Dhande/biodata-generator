@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { BiodataFormData } from '@/types/biodata';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -8,7 +8,6 @@ import ModernTemplate from './templates/ModernTemplate';
 import ElegantTemplate from './templates/ElegantTemplate';
 import RoyalTemplate from './templates/RoyalTemplate';
 import { templates } from '@/data/templates';
-import { useRef } from 'react';
 
 interface BiodataPreviewProps {
   open: boolean;
@@ -18,8 +17,8 @@ interface BiodataPreviewProps {
   onChangeTemplate: (id: string) => void;
 }
 
-// API base URL - defaults to local development server
-const API_BASE_URL = 'http://localhost:7071';
+// API base URL - uses environment variable for production, falls back to localhost for development
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:7071';
 
 const BiodataPreview = ({ open, onOpenChange, data, selectedTemplate, onChangeTemplate }: BiodataPreviewProps) => {
   const previewRef = useRef<HTMLDivElement>(null);
@@ -40,7 +39,7 @@ const BiodataPreview = ({ open, onOpenChange, data, selectedTemplate, onChangeTe
     }
   };
 
-  const currentIndex = templates.findIndex(t => t.id === selectedTemplate);
+  const currentIndex = templates.findIndex((t: { id: string }) => t.id === selectedTemplate);
   
   const goToPrev = () => {
     const newIndex = currentIndex === 0 ? templates.length - 1 : currentIndex - 1;
@@ -185,45 +184,57 @@ const BiodataPreview = ({ open, onOpenChange, data, selectedTemplate, onChangeTe
           <div className="flex items-center justify-between">
             <DialogTitle className="font-serif text-xl">Preview Your Biodata</DialogTitle>
             <div className="flex items-center gap-2">
-              <Button 
-                onClick={handleDownload} 
-                className="bg-primary hover:bg-burgundy-dark"
-                disabled={isDownloading}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToPrev}
+                className="h-8 w-8"
               >
-                {isDownloading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Download className="w-4 h-4 mr-2" />
-                    Download PDF
-                  </>
-                )}
+                <ArrowLeft className="h-4 w-4" />
+              </Button>
+              <span className="text-sm font-medium min-w-[100px] text-center">
+                {templates.find((t: { id: string }) => t.id === selectedTemplate)?.name}
+              </span>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={goToNext}
+                className="h-8 w-8"
+              >
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </div>
           </div>
         </DialogHeader>
         
-        {/* Template Switcher */}
-        <div className="flex items-center justify-center gap-4 py-3 bg-muted/20 border-b">
-          <Button variant="ghost" size="icon" onClick={goToPrev}>
-            <ArrowLeft className="w-4 h-4" />
-          </Button>
-          <span className="font-medium text-sm">
-            {templates.find(t => t.id === selectedTemplate)?.name}
-          </span>
-          <Button variant="ghost" size="icon" onClick={goToNext}>
-            <ArrowRight className="w-4 h-4" />
-          </Button>
-        </div>
-        
-        {/* Preview Area */}
-        <div className="overflow-auto max-h-[calc(90vh-140px)] bg-gray-100 p-8">
-          <div ref={previewRef} className="shadow-2xl mx-auto">
+        <div className="overflow-y-auto max-h-[calc(90vh-140px)] p-4 bg-gray-100">
+          <div 
+            ref={previewRef}
+            className="mx-auto shadow-lg"
+            style={{ width: '210mm', minHeight: '297mm' }}
+          >
             {renderTemplate()}
           </div>
+        </div>
+        
+        <div className="p-4 border-t bg-muted/30 flex justify-center gap-4">
+          <Button
+            onClick={handleDownload}
+            disabled={isDownloading}
+            className="bg-primary hover:bg-burgundy-dark text-white px-8"
+          >
+            {isDownloading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating PDF...
+              </>
+            ) : (
+              <>
+                <Download className="mr-2 h-4 w-4" />
+                Download PDF
+              </>
+            )}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
