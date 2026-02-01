@@ -147,6 +147,9 @@ def generate_pdf():
         pdf_generator = BioDataPDFGenerator()
         pdf_buffer = pdf_generator.generate_pdf(biodata_data, template)
         
+        # Log the generated PDF buffer size
+        app.logger.info(f"Generated PDF buffer size: {len(pdf_buffer.getvalue())} bytes")
+        
         # Prepare response with PDF
         filename = f"{biodata_data.get('name', 'biodata')}_{template}.pdf"
         

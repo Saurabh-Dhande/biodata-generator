@@ -108,44 +108,40 @@ class BioDataPDFGenerator:
         # Personal Details Section
         elements.append(Paragraph('PERSONAL DETAILS', section_header_style))
         
+        # Adjust alignment and styles for personal details
         personal_data = [
             [
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Name</b><br/>{biodata_data.get('name', 'N/A')}", value_style),
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Date Of Birth</b><br/>{biodata_data.get('dateOfBirth', 'N/A')}", value_style)
+                Paragraph(f"<b>Name:</b> {biodata_data.get('name', 'N/A')}", value_style),
+                Paragraph(f"<b>Date of Birth:</b> {biodata_data.get('dateOfBirth', 'N/A')}", value_style)
             ],
             [
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Place of Birth</b><br/>{biodata_data.get('city', 'N/A')}", value_style),
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Time of Birth</b><br/>As per Biodata", value_style)
+                Paragraph(f"<b>Place of Birth:</b> {biodata_data.get('city', 'N/A')}", value_style),
+                Paragraph(f"<b>Time of Birth:</b> {biodata_data.get('timeOfBirth', 'N/A')}", value_style)
             ],
             [
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Rashi</b><br/>{biodata_data.get('gotra', 'N/A')}", value_style),
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Complexion</b><br/>{biodata_data.get('complexion', 'N/A')}", value_style)
+                Paragraph(f"<b>Rashi:</b> {biodata_data.get('rashi', 'N/A')}", value_style),
+                Paragraph(f"<b>Nakshatra:</b> {biodata_data.get('nakshatra', 'N/A')}", value_style)
             ],
             [
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Height</b><br/>{biodata_data.get('height', 'N/A')}", value_style),
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Education</b><br/>{biodata_data.get('education', 'N/A')}", value_style)
+                Paragraph(f"<b>Complexion:</b> {biodata_data.get('complexion', 'N/A')}", value_style),
+                Paragraph(f"<b>Height:</b> {biodata_data.get('height', 'N/A')}", value_style)
             ],
             [
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Work/Job</b><br/>{biodata_data.get('occupation', 'N/A')}", value_style),
-                Paragraph(f"<b style='color: #A0826D; font-size: 7.5px'>Package</b><br/>{biodata_data.get('annualIncome', 'N/A')}", value_style)
-            ],
+                Paragraph(f"<b>Gotra:</b> {biodata_data.get('gotra', 'N/A')}", value_style),
+                Paragraph(f"<b>Education:</b> {biodata_data.get('education', 'N/A')}", value_style)
+            ]
         ]
-        
-        personal_table = Table(personal_data, colWidths=[95*mm, 95*mm])
-        personal_table.setStyle(TableStyle([
-            ('BACKGROUND', (0, 0), (-1, -1), HexColor('#FFFAF0')),
-            ('TEXTCOLOR', (0, 0), (-1, -1), HexColor('#1F2937')),
+
+        table = Table(personal_data, colWidths=[80*mm, 80*mm])
+        table.setStyle(TableStyle([
+            ('BACKGROUND', (0, 0), (-1, 0), HexColor('#F4E3C1')),
+            ('TEXTCOLOR', (0, 0), (-1, -1), black),
             ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
-            ('VALIGN', (0, 0), (-1, -1), 'TOP'),
             ('FONTNAME', (0, 0), (-1, -1), 'Helvetica'),
-            ('FONTSIZE', (0, 0), (-1, -1), 8),
-            ('LEFTPADDING', (0, 0), (-1, -1), 6),
-            ('RIGHTPADDING', (0, 0), (-1, -1), 6),
-            ('TOPPADDING', (0, 0), (-1, -1), 5),
-            ('BOTTOMPADDING', (0, 0), (-1, -1), 5),
-            ('GRID', (0, 0), (-1, -1), 0.5, HexColor('#E5E7EB')),
+            ('FONTSIZE', (0, 0), (-1, -1), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
         ]))
-        elements.append(personal_table)
+        elements.append(table)
         elements.append(Spacer(1, 4*mm))
         
         # Family Details Section
