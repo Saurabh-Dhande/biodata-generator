@@ -21,8 +21,19 @@ const PremiumGoldTemplate = forwardRef(({ data }, ref) => {
       {/* Top Gold Border */}
       <div className="h-1 bg-gradient-to-r from-transparent via-yellow-600 to-transparent mb-8"></div>
 
-      {/* Header */}
+      {/* Header with Photo */}
       <div className="text-center mb-10">
+        {data.photoPreview && (
+          <div className="flex justify-center mb-6">
+            <div className="border-4 border-yellow-600 rounded-full overflow-hidden w-32 h-32">
+              <img 
+                src={data.photoPreview} 
+                alt="Profile" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        )}
         <h1 className="text-3xl font-bold text-yellow-800 mb-2" style={{ fontFamily: 'Georgia, serif', letterSpacing: '2px' }}>
           MATRIMONIAL BIODATA
         </h1>

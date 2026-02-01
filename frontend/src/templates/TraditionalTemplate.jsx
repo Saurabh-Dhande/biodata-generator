@@ -17,14 +17,23 @@ const TraditionalTemplate = forwardRef(({ data }, ref) => {
       {/* Decorative Top Border */}
       <div className="border-t-8 border-yellow-600 mb-4"></div>
 
-      {/* Header - Bilingual */}
-      <div className="text-center mb-8 pb-6 border-b-4 border-yellow-500">
+      {/* Header - Bilingual with Photo */}
+      <div className="text-center mb-8 pb-6 border-b-4 border-yellow-500 flex flex-col items-center">
         <h1 className="text-3xl font-bold text-yellow-800 mb-1" style={{ fontFamily: 'Georgia, serif' }}>
           MATRIMONIAL BIODATA
         </h1>
         <h2 className="text-2xl font-bold text-yellow-700 mb-3" style={{ fontFamily: 'Noto Sans Devanagari' }}>
           विवाह जीवन वृत्तांत
         </h2>
+        {data.photoPreview && (
+          <div className="my-4">
+            <img 
+              src={data.photoPreview} 
+              alt="Profile" 
+              className="w-28 h-36 object-cover rounded-lg border-3 border-yellow-600"
+            />
+          </div>
+        )}
         <p className="text-yellow-700 text-sm">A Sacred Document for Marriage Alliance</p>
         <p className="text-yellow-600 text-xs mt-2" style={{ fontFamily: 'Noto Sans Devanagari' }}>
           विवाह संबंध के लिए एक पवित्र दस्तावेज़

@@ -7,10 +7,21 @@ const ModernTemplate = forwardRef(({ data }, ref) => {
       className="w-full bg-gradient-to-br from-gray-50 to-gray-100 p-10 text-gray-900"
       style={{ fontSize: '11px', lineHeight: '1.5', fontFamily: 'Segoe UI, Arial, sans-serif' }}
     >
-      {/* Header */}
-      <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-8 rounded-lg mb-8 -m-10 mb-8">
-        <h1 className="text-3xl font-bold mb-1">BIODATA</h1>
-        <p className="text-gray-300 text-sm">Matrimonial Profile</p>
+      {/* Header with Photo */}
+      <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-8 rounded-lg mb-8 -m-10 mb-8 flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold mb-1">BIODATA</h1>
+          <p className="text-gray-300 text-sm">Matrimonial Profile</p>
+        </div>
+        {data.photoPreview && (
+          <div className="hidden sm:block">
+            <img 
+              src={data.photoPreview} 
+              alt="Profile" 
+              className="w-24 h-32 object-cover rounded-lg border-2 border-white"
+            />
+          </div>
+        )}
       </div>
 
       {/* Two Column Layout */}

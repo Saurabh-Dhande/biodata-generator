@@ -3,6 +3,8 @@ import { useState } from 'react'
 export default function BioDataForm({ onSubmit }) {
   const [formData, setFormData] = useState({
     // Personal Information
+    photo: null,
+    photoPreview: null,
     name: '',
     age: '',
     gender: '',
@@ -126,23 +128,110 @@ export default function BioDataForm({ onSubmit }) {
       ...prev,
       [name]: value
     }))
+    // Clear field-level error when changed
+    setErrors(prev => ({ ...prev, [name]: null }))
+  }
+
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setFormData(prev => ({
+          ...prev,
+          photo: file,
+          photoPreview: reader.result
+        }))
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const removePhoto = () => {
+    setFormData(prev => ({
+      ...prev,
+      photo: null,
+      photoPreview: null
+    }))
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
     
-    // Validate required fields
-    if (!formData.name || !formData.age || !formData.gender || !formData.religion) {
-      alert('Please fill in all required fields (Name, Age, Gender, Religion)')
+    // Validate required fields with inline errors
+    const newErrors = {}
+    if (!formData.name) newErrors.name = 'Name is required'
+    if (!formData.age) newErrors.age = 'Age is required'
+    if (!formData.gender) newErrors.gender = 'Gender is required'
+    if (!formData.religion) newErrors.religion = 'Religion is required'
+
+    if (Object.keys(newErrors).length) {
+      setErrors(newErrors)
+      // scroll to top of form for visibility
+      window.requestAnimationFrame(() => window.scrollTo({ top: 0, behavior: 'smooth' }))
       return
     }
 
     onSubmit(formData)
   }
 
+  // Field-level errors state
+  const [errors, setErrors] = useState({})
+
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       
+      {/* Photo Upload Section */}
+      <div className="photo-card p-6 mb-6 bg-white">
+        <h3 className="text-xl font-bold text-indigo-700 mb-2">📸 Profile Photo</h3>
+        <p className="text-sm muted mb-4">Upload a professional profile photo (Optional)</p>
+
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Photo Preview */}
+          <div className="flex-shrink-0">
+            <div className="w-32 h-40 bg-gray-100 rounded-lg overflow-hidden border-2 border-indigo-50 flex items-center justify-center">
+              {formData.photoPreview ? (
+                <img src={formData.photoPreview} alt="Preview" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-4xl">📷</span>
+              )}
+            </div>
+          </div>
+
+          {/* Photo Upload Controls */}
+          <div className="flex-1">
+            <div className="border-2 border-dashed border-indigo-200 rounded-lg p-4 text-center bg-white hover:bg-indigo-50 transition cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+                className="hidden"
+                id="photoInput"
+              />
+              <label htmlFor="photoInput" className="cursor-pointer">
+                <div className="text-3xl mb-2">🖼️</div>
+                <p className="font-semibold text-gray-800 mb-1">Click to upload photo</p>
+                <p className="text-xs muted">or drag and drop</p>
+                <p className="text-xs text-gray-500 mt-2">PNG, JPG, GIF up to 5MB</p>
+              </label>
+            </div>
+            
+            {formData.photoPreview && (
+              <div className="mt-4 flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={removePhoto}
+                  className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition"
+                >
+                  ❌ Remove Photo
+                </button>
+                <p className="text-sm text-green-600">✓ Photo selected</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
       {/* Section 1: Personal Information */}
       <div className="border-b-2 border-purple-200 pb-6">
         <h3 className="text-xl font-bold text-purple-700 mb-6">👤 Personal Information</h3>
@@ -155,10 +244,11 @@ export default function BioDataForm({ onSubmit }) {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base"
+              className={`w-full px-3 md:px-4 py-2 md:py-3 border-2 rounded-lg focus:outline-none text-sm md:text-base ${errors.name ? 'border-red-400 focus:ring-2 focus:ring-red-300' : 'border-gray-300 focus:ring-2 focus:ring-purple-500'}`}
               placeholder="Enter your full name"
               required
             />
+            {errors.name && <p className="text-xs text-red-600 mt-1">{errors.name}</p>}
           </div>
 
           <div>
@@ -168,12 +258,13 @@ export default function BioDataForm({ onSubmit }) {
               name="age"
               value={formData.age}
               onChange={handleChange}
-              className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className={`w-full px-4 py-2 border-2 rounded-lg ${errors.age ? 'border-red-400 focus:ring-2 focus:ring-red-300' : 'border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500'}`}
               placeholder="Age"
               min="18"
               max="100"
               required
             />
+            {errors.age && <p className="text-xs text-red-600 mt-1">{errors.age}</p>}
           </div>
 
           <div>
@@ -182,13 +273,14 @@ export default function BioDataForm({ onSubmit }) {
               name="gender"
               value={formData.gender}
               onChange={handleChange}
-              className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className={`w-full px-4 py-2 border-2 rounded-lg ${errors.gender ? 'border-red-400 focus:ring-2 focus:ring-red-300' : 'border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500'}`}
               required
             >
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
+            {errors.gender && <p className="text-xs text-red-600 mt-1">{errors.gender}</p>}
           </div>
 
           <div>

@@ -7,10 +7,23 @@ const ClassicTemplate = forwardRef(({ data }, ref) => {
       className="w-full bg-white p-12 text-gray-900"
       style={{ fontSize: '12px', lineHeight: '1.6', fontFamily: 'Arial, sans-serif' }}
     >
-      {/* Header */}
+      {/* Header with Photo */}
       <div className="border-b-4 border-purple-600 pb-6 mb-8">
-        <h1 className="text-4xl font-bold text-purple-600 text-center mb-2">MATRIMONIAL BIODATA</h1>
-        <p className="text-center text-gray-600 text-sm">Professional Marriage Proposal Document</p>
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex-1">
+            <h1 className="text-4xl font-bold text-purple-600 mb-2">MATRIMONIAL BIODATA</h1>
+            <p className="text-center text-gray-600 text-sm">Professional Marriage Proposal Document</p>
+          </div>
+          {data.photoPreview && (
+            <div className="ml-6">
+              <img 
+                src={data.photoPreview} 
+                alt="Profile" 
+                className="w-24 h-32 object-cover rounded-lg border-2 border-purple-600"
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Personal Information */}
