@@ -99,6 +99,16 @@ function App() {
               >
                 Traditional Design
               </button>
+              <button
+                onClick={() => setSelectedTemplate('template4')}
+                className={`px-6 py-3 rounded-lg font-semibold transition ${
+                  selectedTemplate === 'template4'
+                    ? 'bg-yellow-600 text-white'
+                    : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
+                }`}
+              >
+                ✨ Premium Gold
+              </button>
             </div>
           </div>
 
@@ -117,7 +127,7 @@ function App() {
               onClick={handleDownloadPDF}
               className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-lg transition text-sm md:text-base"
             >
-              📥 Download PDF
+              � Create Template
             </button>
             <button
               onClick={handleCreateNew}

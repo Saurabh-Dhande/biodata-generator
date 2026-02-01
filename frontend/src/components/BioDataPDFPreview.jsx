@@ -393,6 +393,136 @@ const BioDataPDFPreview = forwardRef(({ data, template }, ref) => {
     </div>
   )
 
+  // Template 4: Premium Gold Elegant Design (Mandatory Fields Only)
+  const PremiumGoldTemplate = () => (
+    <div ref={ref} className="w-full bg-white p-12 text-gray-800" style={{ fontSize: '11px', lineHeight: '1.8' }}>
+      {/* Decorative Top Border */}
+      <div className="border-t-8 border-yellow-600 mb-8"></div>
+      
+      {/* Header with Gold Accent */}
+      <div className="text-center mb-10 pb-8 border-b-2 border-yellow-300">
+        <h1 className="text-4xl font-bold text-yellow-700 mb-2" style={{ fontFamily: 'serif' }}>
+          MATRIMONIAL BIODATA
+        </h1>
+        <p className="text-yellow-600 text-sm font-italic">Professional Profile for Matrimonial Purpose</p>
+        <p className="text-gray-500 text-xs mt-3">📅 {new Date().toLocaleDateString()}</p>
+      </div>
+
+      {/* Main Content - Only Mandatory/Important Fields */}
+      <div className="space-y-8">
+        {/* Personal Details Section */}
+        <div>
+          <h2 className="text-sm font-bold text-yellow-700 uppercase tracking-wider border-b-2 border-yellow-300 pb-2 mb-4">Personal Profile</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Full Name</p>
+              <p className="text-lg font-bold text-gray-900 mt-1">{data.name}</p>
+            </div>
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Age</p>
+              <p className="text-lg font-bold text-gray-900 mt-1">{data.age} years</p>
+            </div>
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Gender</p>
+              <p className="text-lg font-bold text-gray-900 mt-1">{data.gender}</p>
+            </div>
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Height</p>
+              <p className="text-lg font-bold text-gray-900 mt-1">{data.height || 'N/A'}</p>
+            </div>
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Religion</p>
+              <p className="text-lg font-bold text-gray-900 mt-1">{data.religion}</p>
+            </div>
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Marital Status</p>
+              <p className="text-lg font-bold text-gray-900 mt-1">{data.maritalStatus}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Family Information */}
+        <div>
+          <h2 className="text-sm font-bold text-yellow-700 uppercase tracking-wider border-b-2 border-yellow-300 pb-2 mb-4">Family Background</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Father's Name</p>
+              <p className="text-base font-semibold text-gray-900 mt-1">{data.fatherName || 'N/A'}</p>
+            </div>
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Mother's Name</p>
+              <p className="text-base font-semibold text-gray-900 mt-1">{data.motherName || 'N/A'}</p>
+            </div>
+            {data.caste && (
+              <div className="border-l-4 border-yellow-500 pl-4">
+                <p className="text-gray-500 text-xs uppercase tracking-wide">Caste</p>
+                <p className="text-base font-semibold text-gray-900 mt-1">{data.caste}</p>
+              </div>
+            )}
+            {data.gotra && (
+              <div className="border-l-4 border-yellow-500 pl-4">
+                <p className="text-gray-500 text-xs uppercase tracking-wide">Gotra</p>
+                <p className="text-base font-semibold text-gray-900 mt-1">{data.gotra}</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Professional Information */}
+        <div>
+          <h2 className="text-sm font-bold text-yellow-700 uppercase tracking-wider border-b-2 border-yellow-300 pb-2 mb-4">Professional Details</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Occupation</p>
+              <p className="text-base font-semibold text-gray-900 mt-1">{data.occupation || 'N/A'}</p>
+            </div>
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Education</p>
+              <p className="text-base font-semibold text-gray-900 mt-1">{data.education || 'N/A'}</p>
+            </div>
+            {data.annualIncome && (
+              <div className="border-l-4 border-yellow-500 pl-4">
+                <p className="text-gray-500 text-xs uppercase tracking-wide">Annual Income</p>
+                <p className="text-base font-semibold text-gray-900 mt-1">{data.annualIncome}</p>
+              </div>
+            )}
+            {data.company && (
+              <div className="border-l-4 border-yellow-500 pl-4">
+                <p className="text-gray-500 text-xs uppercase tracking-wide">Company</p>
+                <p className="text-base font-semibold text-gray-900 mt-1">{data.company}</p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Contact Information */}
+        <div>
+          <h2 className="text-sm font-bold text-yellow-700 uppercase tracking-wider border-b-2 border-yellow-300 pb-2 mb-4">Contact Information</h2>
+          <div className="grid grid-cols-2 gap-6">
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">City / Location</p>
+              <p className="text-base font-semibold text-gray-900 mt-1">{data.city || data.location || 'N/A'}</p>
+            </div>
+            <div className="border-l-4 border-yellow-500 pl-4">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">Email</p>
+              <p className="text-base font-semibold text-gray-900 mt-1 break-all text-xs">{data.email || 'N/A'}</p>
+            </div>
+            <div className="border-l-4 border-yellow-500 pl-4 col-span-2">
+              <p className="text-gray-500 text-xs uppercase tracking-wide">About</p>
+              <p className="text-sm text-gray-800 mt-1">{data.about || 'Seeking a life partner for matrimonial alliance.'}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Decorative Footer */}
+      <div className="border-t-8 border-yellow-600 mt-8 pt-6 text-center">
+        <p className="text-yellow-700 text-xs font-italic">This biodata is prepared for matrimonial purposes only</p>
+        <p className="text-gray-500 text-xs mt-2">© 2026 Marriage Biodata Generator • Confidential</p>
+      </div>
+    </div>
+  )
+
   // Render selected template
   const renderTemplate = () => {
     switch (template) {
@@ -402,6 +532,8 @@ const BioDataPDFPreview = forwardRef(({ data, template }, ref) => {
         return <ModernTemplate />
       case 'template3':
         return <TraditionalTemplate />
+      case 'template4':
+        return <PremiumGoldTemplate />
       default:
         return <ClassicTemplate />
     }
