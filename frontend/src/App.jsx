@@ -39,30 +39,47 @@ function App() {
   }
 
   const handleDownloadPDF = async () => {
-    if (!pdfRef.current) return
-
     try {
       setIsDownloading(true)
       setDownloadProgress(0)
       
-      const element = pdfRef.current
       const fileName = `${formData.name || 'biodata'}_${selectedTemplate}.pdf`
       
-      // Simulate progress
       setDownloadProgress(20)
       
-      const options = {
-        margin: [8, 10, 8, 10],
-        filename: fileName,
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 3, useCORS: true, logging: false },
-        jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4', compress: true, putOnlyUsedFonts: true },
-        pagebreak: { mode: ['css', 'legacy'] }
-      }
-
-      setDownloadProgress(50)
+      // Call backend API to generate PDF
+      const response = await fetch('http://localhost:7071/api/generate-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          biodata: formData,
+          template: selectedTemplate
+        })
+      })
       
-      await html2pdf().set(options).from(element).save()
+      setDownloadProgress(60)
+      
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to generate PDF')
+      }
+      
+      // Get PDF blob from response
+      const pdfBlob = await response.blob()
+      
+      setDownloadProgress(85)
+      
+      // Create download link
+      const url = window.URL.createObjectURL(pdfBlob)
+      const link = document.createElement('a')
+      link.href = url
+      link.download = fileName
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(url)
       
       setDownloadProgress(100)
       
@@ -70,11 +87,12 @@ function App() {
       setTimeout(() => {
         setDownloadProgress(0)
         setIsDownloading(false)
+        alert('PDF downloaded successfully!')
       }, 500)
     } catch (error) {
       console.error('Error downloading PDF:', error)
       setIsDownloading(false)
-      alert('Error downloading PDF. Please try again.')
+      alert(`Error downloading PDF: ${error.message}. If backend is not running, make sure to start it with 'python app.py'`)
     }
   }
 
