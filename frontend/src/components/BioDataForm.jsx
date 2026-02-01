@@ -149,20 +149,20 @@ export default function BioDataForm({ onSubmit }) {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Full Name *</label>
+            <label className="block text-gray-700 font-semibold mb-2 text-sm md:text-base">Full Name *</label>
             <input
               type="text"
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full px-3 md:px-4 py-2 md:py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm md:text-base"
               placeholder="Enter your full name"
               required
             />
           </div>
 
           <div>
-            <label className="block text-gray-700 font-semibold mb-2">Age *</label>
+            <label className="block text-gray-700 font-semibold mb-2 text-sm md:text-base">Age *</label>
             <input
               type="number"
               name="age"
@@ -734,10 +734,10 @@ export default function BioDataForm({ onSubmit }) {
       </div>
 
       {/* Submit Button */}
-      <div className="flex gap-4 justify-center pt-6">
+      <div className="flex gap-2 md:gap-4 justify-center pt-4 md:pt-6 px-2">
         <button
           type="submit"
-          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-3 px-12 rounded-lg transition transform hover:scale-105 text-lg"
+          className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-2 md:py-3 px-6 md:px-12 rounded-lg transition transform hover:scale-105 text-sm md:text-lg w-full md:w-auto"
         >
           📄 Generate PDF Biodata
         </button>

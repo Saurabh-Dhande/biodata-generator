@@ -57,21 +57,21 @@ function App() {
 
   if (showPreview && formData) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 py-8 px-4">
+      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-600 to-red-600 py-4 md:py-8 px-3 md:px-4">
         <div className="max-w-4xl mx-auto">
           {/* Header */}
-          <div className="bg-white rounded-lg shadow-lg p-8 mb-6">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">💍 Biodata Preview</h1>
-            <p className="text-gray-600">Your biodata is ready. Download as PDF or create new</p>
+          <div className="bg-white rounded-lg shadow-lg p-4 md:p-8 mb-4 md:mb-6">
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-2">💍 Biodata Preview</h1>
+            <p className="text-sm md:text-base text-gray-600">Your biodata is ready. Download as PDF or create new</p>
           </div>
 
           {/* Template Selection */}
-          <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-            <label className="block text-gray-700 font-bold mb-3">Select PDF Template:</label>
-            <div className="flex gap-4 flex-wrap">
+          <div className="bg-white rounded-lg shadow-lg p-4 md:p-6 mb-4 md:mb-6">
+            <label className="block text-gray-700 font-bold mb-3 text-sm md:text-base">Select PDF Template:</label>
+            <div className="flex gap-2 md:gap-4 flex-wrap">
               <button
                 onClick={() => setSelectedTemplate('template1')}
-                className={`px-6 py-3 rounded-lg font-semibold transition ${
+                className={`px-3 md:px-6 py-2 md:py-3 rounded-lg font-semibold transition text-sm md:text-base ${
                   selectedTemplate === 'template1'
                     ? 'bg-purple-600 text-white'
                     : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
@@ -103,7 +103,7 @@ function App() {
           </div>
 
           {/* PDF Preview */}
-          <div className="bg-white rounded-lg shadow-lg p-8 mb-6 overflow-auto max-h-[600px]">
+          <div className="bg-white rounded-lg shadow-lg p-4 md:p-8 mb-4 md:mb-6 overflow-auto max-h-[400px] md:max-h-[600px]">
             <BioDataPDFPreview 
               data={formData} 
               template={selectedTemplate}
@@ -112,16 +112,16 @@ function App() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex gap-2 md:gap-4 justify-center flex-wrap">
             <button
               onClick={handleDownloadPDF}
-              className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition"
+              className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-lg transition text-sm md:text-base"
             >
               📥 Download PDF
             </button>
             <button
               onClick={handleCreateNew}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg transition"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-lg transition text-sm md:text-base"
             >
               📝 Create New Biodata
             </button>
@@ -182,15 +182,15 @@ function App() {
         </div>
 
         {/* Form */}
-        <div className="bg-white rounded-lg shadow-xl p-8">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">Fill Your Details</h2>
+        <div className="bg-white rounded-lg shadow-xl p-4 md:p-8">
+          <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-gray-800">Fill Your Details</h2>
           <BioDataForm onSubmit={handleFormSubmit} />
         </div>
 
         {/* Info Section */}
-        <div className="bg-white bg-opacity-90 rounded-lg shadow-lg p-6 mt-8">
-          <h3 className="text-lg font-bold text-gray-800 mb-4">How it works:</h3>
-          <ol className="space-y-2 text-gray-700">
+        <div className="bg-white bg-opacity-90 rounded-lg shadow-lg p-4 md:p-6 mt-6 md:mt-8">
+          <h3 className="text-base md:text-lg font-bold text-gray-800 mb-3 md:mb-4">How it works:</h3>
+          <ol className="space-y-2 text-sm md:text-base text-gray-700">
             <li>1️⃣ Fill in all your details in the form</li>
             <li>2️⃣ Click submit to see a preview</li>
             <li>3️⃣ Choose your preferred template design</li>
@@ -199,36 +199,36 @@ function App() {
         </div>
 
         {/* Footer with Counters */}
-        <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-lg shadow-lg p-8 mt-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-lg shadow-lg p-4 md:p-8 mt-8">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8">
             <div className="text-center flex-1">
-              <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg p-6 inline-block">
-                <p className="text-sm font-semibold text-gray-100 mb-2">📊 Biodata Created</p>
-                <p className="text-4xl font-bold text-white">{biodataCount}</p>
+              <div className="bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg p-4 md:p-6 inline-block">
+                <p className="text-xs md:text-sm font-semibold text-gray-100 mb-2">📊 Biodata Created</p>
+                <p className="text-3xl md:text-4xl font-bold text-white">{biodataCount}</p>
               </div>
-              <p className="text-gray-400 text-sm mt-3">Professional biodatas generated</p>
+              <p className="text-gray-400 text-xs md:text-sm mt-2 md:mt-3">Professional biodatas generated</p>
             </div>
 
             <div className="hidden md:block w-px h-20 bg-gray-700"></div>
 
             <div className="text-center flex-1">
-              <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg p-6 inline-block">
-                <p className="text-sm font-semibold text-gray-100 mb-2">👥 Page Visits</p>
-                <p className="text-4xl font-bold text-white">{pageVisits}</p>
+              <div className="bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg p-4 md:p-6 inline-block">
+                <p className="text-xs md:text-sm font-semibold text-gray-100 mb-2">👥 Page Visits</p>
+                <p className="text-3xl md:text-4xl font-bold text-white">{pageVisits}</p>
               </div>
-              <p className="text-gray-400 text-sm mt-3">Total page visits</p>
+              <p className="text-gray-400 text-xs md:text-sm mt-2 md:mt-3">Total page visits</p>
             </div>
 
             <div className="hidden md:block w-px h-20 bg-gray-700"></div>
 
-            <div className="text-center flex-1 text-xs text-gray-400">
-              <p className="mb-2">✨ Thank you for using</p>
-              <p className="text-lg font-bold text-white mb-2">Marriage Biodata Generator</p>
+            <div className="text-center flex-1 text-xs md:text-sm text-gray-400">
+              <p className="mb-1 md:mb-2">✨ Thank you for using</p>
+              <p className="text-base md:text-lg font-bold text-white mb-1 md:mb-2">Marriage Biodata Generator</p>
               <p>Making matrimonial connections easier</p>
             </div>
           </div>
 
-          <div className="border-t border-gray-700 mt-6 pt-6 text-center text-gray-500 text-sm">
+          <div className="border-t border-gray-700 mt-4 md:mt-6 pt-4 md:pt-6 text-center text-gray-500 text-xs md:text-sm">
             <p>© 2026 Marriage Biodata Generator • No data is stored • Completely Private & Secure</p>
           </div>
         </div>
